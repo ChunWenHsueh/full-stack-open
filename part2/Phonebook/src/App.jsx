@@ -21,27 +21,49 @@ const App = () => {
   }, []);
 
   const addPerson = (newPerson) => {
-    phonebookService.create(newPerson).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      setMessageState("success");
-      setMessage(`Added ${returnedPerson.name}`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-    });
+    phonebookService
+      .create(newPerson)
+      .then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setMessageState("success");
+        setMessage(`Added ${returnedPerson.name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      })
+      .catch((error) => {
+        // this is the way to access the error message
+        console.log(error.response.data.error);
+        setMessageState("error");
+        setMessage(error.response.data.error);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      });
   };
 
   const updatePerson = (id, updatedPerson) => {
-    phonebookService.updatePerson(id, updatedPerson).then((returnedPerson) => {
-      setPersons(
-        persons.map((person) => (person.id === id ? returnedPerson : person))
-      );
-      setMessageState("success");
-      setMessage(`Updated ${returnedPerson.name}`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-    });
+    phonebookService
+      .updatePerson(id, updatedPerson)
+      .then((returnedPerson) => {
+        setPersons(
+          persons.map((person) => (person.id === id ? returnedPerson : person))
+        );
+        setMessageState("success");
+        setMessage(`Updated ${returnedPerson.name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      })
+      .catch((error) => {
+        // this is the way to access the error message
+        console.log(error.response.data.error);
+        setMessageState("error");
+        setMessage(error.response.data.error);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      });
   };
 
   const deletePerson = (id) => {
